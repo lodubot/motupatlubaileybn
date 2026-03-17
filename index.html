@@ -206,7 +206,9 @@
                 You are currently <b>NOT VERIFIED</b> to use this Web App.<br><br>
                 To unlock access, you must first go to the bot, join all official channels & groups, and verify yourself. Then you can use me!
             </p>
-            <a href="https://t.me/MOTU_PATALU_HINDU_HAI_BOT" target="_blank" class="btn btn-bot" id="verifyBotLink">🤖 Go to Bot to Verify</a>
+            
+            <a href="#" target="_blank" class="btn btn-bot" id="verifyBotLink">🤖 Go to Bot to Verify</a>
+            
             <button class="btn btn-check" onclick="checkVerification()">🔄 I Am Verified (Check)</button>
         </div>
     </div>
@@ -233,17 +235,22 @@
     </div>
 
     <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
+        // Check if running inside Telegram WebApp or normal Browser (Chrome)
+        const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+        
+        if (tg && tg.initData) {
+            tg.expand();
+        }
 
         const urlParams = new URLSearchParams(window.location.search);
         const isLocked = urlParams.get('locked') === 'true';
         const isPrem = urlParams.get('prem') === 'true';
         const isVerified = urlParams.get('verified') === 'true'; 
         
-        // 🔥 Bot ka username hum directly url se nikalenge jisse deep link banegi
+        // ⚠️ DHYAN DEIN: Yahan apne bot ka actual username dalna zaroori hai!
         const botUsername = urlParams.get('bot') || "MOTU_PATALU_HINDU_HAI_BOT"; 
 
+        // Agar user direct Chrome se aata hai bina URL params ke, toh wo verified nahi mana jayega (Security!)
         if (!isVerified) {
             document.getElementById('verifyScreen').style.display = 'flex';
             document.getElementById('verifyBotLink').href = `https://t.me/${botUsername}`;
@@ -251,36 +258,68 @@
             document.getElementById('mainScreen').style.display = 'flex';
         }
 
+        // Custom Alert jo Chrome aur Telegram dono me kaam karegi
+        function showCustomAlert(msg) {
+            if (tg && tg.initData) {
+                tg.showAlert(msg);
+            } else {
+                alert(msg);
+            }
+        }
+
         function requestPair() {
             if (isLocked && !isPrem) {
-                tg.showAlert("🚫 ACCESS DENIED!\n\nFree Mode is OFF. You must have an active Premium Subscription to use this feature.\n\n📩 DM to buy Premium: @RAJPUTTEAM101");
+                showCustomAlert("🚫 ACCESS DENIED!\n\nFree Mode is OFF. You must have an active Premium Subscription to use this feature.\n\n📩 DM to buy Premium: @RAJPUTTEAM101");
                 return; 
             }
 
             let phone = document.getElementById('phoneNumber').value;
+            
             if (!phone) {
-                tg.showAlert("⚠️ Please enter a WhatsApp number first!");
+                showCustomAlert("⚠️ Please enter a WhatsApp number first!");
                 return;
             }
             
-            // 🔥 DEEP LINKING MAGIC: Telegram ko khud open karne ko bolega
-            tg.openTelegramLink(`https://t.me/${botUsername}?start=pair_${phone}`);
-            tg.close(); 
+            const deepLink = `https://t.me/${botUsername}?start=pair_${phone}`;
+            
+            if (tg && tg.initData) {
+                tg.openTelegramLink(deepLink);
+                tg.close(); 
+            } else {
+                // Chrome/Browser redirect
+                window.location.href = deepLink;
+            }
         }
 
         function sendToBot(action) {
-            // "menu" jaise commands ko "cmd_menu" karke bhejega
-            tg.openTelegramLink(`https://t.me/${botUsername}?start=cmd_${action}`);
-            tg.close();
+            let cmdAction = action.replace('/', '');
+            const deepLink = `https://t.me/${botUsername}?start=cmd_${cmdAction}`;
+            
+            if (tg && tg.initData) {
+                tg.openTelegramLink(deepLink);
+                tg.close();
+            } else {
+                window.location.href = deepLink;
+            }
         }
 
         function checkVerification() {
-            tg.openTelegramLink(`https://t.me/${botUsername}?start=cmd_menu`);
-            tg.close();
+            const deepLink = `https://t.me/${botUsername}?start=cmd_menu`;
+            if (tg && tg.initData) {
+                tg.openTelegramLink(deepLink);
+                tg.close();
+            } else {
+                window.location.href = deepLink;
+            }
         }
 
         function closeApp() {
-            tg.close();
+            if (tg && tg.initData) {
+                tg.close();
+            } else {
+                // Browser me tab close karne ka try karega
+                window.close();
+            }
         }
     </script>
 </body>
