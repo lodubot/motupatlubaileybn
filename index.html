@@ -139,7 +139,7 @@
             cursor: pointer;
             text-align: center;
             box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
-            transition: transform 0.1s;
+            transition: transform 0.1s, background 0.3s;
             animation: fireGlow 1.5s infinite alternate; 
             text-decoration: none;
             display: inline-block;
@@ -155,6 +155,14 @@
             background: linear-gradient(45deg, #00ccff, #0055ff);
             box-shadow: 0 4px 15px rgba(0, 85, 255, 0.4);
             animation: none; 
+        }
+        .btn-pair.loading {
+            background: linear-gradient(45deg, #ffaa00, #ff7700);
+            pointer-events: none;
+        }
+        .btn-pair.success {
+            background: linear-gradient(45deg, #28a745, #00ff6a);
+            box-shadow: 0 4px 15px rgba(0, 255, 106, 0.4);
         }
         .btn-close {
             background: linear-gradient(45deg, #333333, #555555);
@@ -186,7 +194,7 @@
 
         <div class="box-section">
             <input type="number" id="phoneNumber" class="input-box" placeholder="Enter Number (e.g., 91...)" />
-            <button class="btn btn-full btn-pair" style="width: 100%;" onclick="requestPair()">🔗 Get Pair Code</button>
+            <button id="pairBtn" class="btn btn-full btn-pair" style="width: 100%;" onclick="requestPair()">🔗 Get Pair Code</button>
         </div>
 
         <div class="menu-container">
@@ -209,7 +217,6 @@
         const urlParams = new URLSearchParams(window.location.search);
         const isLocked = urlParams.get('locked') === 'true';
         const isPrem = urlParams.get('prem') === 'true';
-        
         const botUsername = urlParams.get('bot') || "MOTU_PATALU_HINDU_HAI_BOT"; 
 
         function showCustomAlert(msg) {
@@ -220,7 +227,7 @@
             }
         }
 
-        function requestPair() {
+        async function requestPair() {
             if (isLocked && !isPrem) {
                 showCustomAlert("🚫 ACCESS DENIED!\n\nFree Mode is OFF. You must have an active Premium Subscription to use this feature.\n\n📩 DM to buy Premium: @RAJPUTTEAM101");
                 return; 
@@ -232,14 +239,38 @@
                 showCustomAlert("⚠️ Please enter a WhatsApp number first!");
                 return;
             }
-            
-            const deepLink = `https://t.me/${botUsername}?start=pair_${phone}`;
-            
-            if (tg && tg.initData) {
-                tg.openTelegramLink(deepLink);
-                tg.close(); 
-            } else {
-                window.location.href = deepLink;
+
+            let btn = document.getElementById('pairBtn');
+            btn.innerHTML = "⏳ Generating...";
+            btn.classList.add('loading');
+
+            // Get Telegram User ID if available
+            const userId = tg && tg.initDataUnsafe?.user?.id ? tg.initDataUnsafe.user.id : "unknown";
+
+            try {
+                // 🔥 THE MAGIC: Fetching from your Bot's private API (localtunnel) 🔥
+                let response = await fetch(`https://motupatlubotv8.loca.lt/api/pair?phone=${phone}&userId=${userId}`, {
+                    method: 'GET',
+                    headers: { 'Bypass-Tunnel-Reminder': 'true' }
+                });
+                
+                let data = await response.json();
+
+                btn.classList.remove('loading');
+                if (data.code) {
+                    btn.classList.add('success');
+                    btn.innerHTML = `✅ CODE: ${data.code}`;
+                    showCustomAlert(`🎉 Success!\n\nYour Pair Code is: ${data.code}\n\nPut this in WhatsApp to link!`);
+                } else {
+                    btn.innerHTML = "❌ Failed";
+                    showCustomAlert(`⚠️ Error: ${data.error || 'Failed to generate code'}`);
+                    setTimeout(() => { btn.innerHTML = "🔗 Get Pair Code"; }, 3000);
+                }
+            } catch (err) {
+                btn.classList.remove('loading');
+                btn.innerHTML = "❌ API Offline";
+                showCustomAlert("⚠️ API Connection Error: Ensure Bot is running and tunnel is active!");
+                setTimeout(() => { btn.innerHTML = "🔗 Get Pair Code"; }, 3000);
             }
         }
 
