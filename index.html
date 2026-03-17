@@ -19,7 +19,6 @@
             overflow: hidden;
             position: relative;
         }
-
         .bg-video {
             position: absolute;
             top: 50%;
@@ -32,7 +31,6 @@
             transform: translateX(-50%) translateY(-50%);
             object-fit: cover; 
         }
-
         .bg-overlay {
             position: absolute;
             top: 0;
@@ -42,7 +40,6 @@
             background: rgba(0, 0, 0, 0.65); 
             z-index: -1;
         }
-
         .watermark {
             position: absolute;
             top: 50%;
@@ -57,12 +54,10 @@
             pointer-events: none;
             animation: pulseText 2.5s infinite alternate;
         }
-
         @keyframes pulseText {
             0% { transform: translate(-50%, -50%) scale(1); opacity: 0.05; }
             100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.2; text-shadow: 0 0 25px red; }
         }
-
         .main-content {
             width: 100%;
             display: flex;
@@ -70,117 +65,46 @@
             align-items: center;
             z-index: 1;
         }
-
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .header h1 {
-            color: #ff3300;
-            text-shadow: 0 0 10px #ff3300, 0 0 20px #ff7700;
-            margin: 0;
-            font-size: 28px;
-        }
-        .header p {
-            color: #aaaaaa;
-            margin-top: 5px;
-            font-size: 14px;
-        }
-        
+        .header { text-align: center; margin-bottom: 20px; }
+        .header h1 { color: #ff3300; text-shadow: 0 0 10px #ff3300, 0 0 20px #ff7700; margin: 0; font-size: 28px; }
+        .header p { color: #aaaaaa; margin-top: 5px; font-size: 14px; }
         .box-section {
-            width: 90%;
-            max-width: 400px;
-            background: rgba(26, 26, 26, 0.4); 
-            backdrop-filter: blur(10px); 
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 0 15px rgba(255, 51, 0, 0.4);
-            margin-bottom: 20px;
-            text-align: center;
-            border: 1px solid rgba(255, 51, 0, 0.2);
+            width: 90%; max-width: 400px;
+            background: rgba(26, 26, 26, 0.4); backdrop-filter: blur(10px); 
+            padding: 15px; border-radius: 12px;
+            box-shadow: 0 0 15px rgba(255, 51, 0, 0.4); margin-bottom: 20px;
+            text-align: center; border: 1px solid rgba(255, 51, 0, 0.2);
         }
-        
         .input-box {
-            width: 85%;
-            padding: 12px;
-            margin-bottom: 10px;
-            border: 2px solid #ff3300;
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.8);
-            color: #fff;
-            font-size: 16px;
-            text-align: center;
-            outline: none;
-            transition: 0.3s;
+            width: 85%; padding: 12px; margin-bottom: 10px;
+            border: 2px solid #ff3300; border-radius: 8px;
+            background: rgba(0, 0, 0, 0.8); color: #fff; font-size: 16px;
+            text-align: center; outline: none; transition: 0.3s;
         }
-        .input-box:focus {
-            box-shadow: 0 0 15px #ff3300;
-        }
-        .input-box::placeholder {
-            color: #777;
-        }
-
+        .input-box:focus { box-shadow: 0 0 15px #ff3300; }
         .menu-container {
-            width: 90%;
-            max-width: 400px;
-            display: grid;
-            grid-template-columns: 1fr 1fr; 
-            gap: 15px;
+            width: 90%; max-width: 400px; display: grid;
+            grid-template-columns: 1fr 1fr; gap: 15px;
         }
-        
         .btn {
-            background: linear-gradient(45deg, #ff0000, #ff7300);
-            color: white;
-            border: none;
-            padding: 15px 10px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 12px;
-            cursor: pointer;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
-            transition: transform 0.1s, background 0.3s;
-            animation: fireGlow 1.5s infinite alternate; 
-            text-decoration: none;
-            display: inline-block;
-            box-sizing: border-box;
+            background: linear-gradient(45deg, #ff0000, #ff7300); color: white; border: none;
+            padding: 15px 10px; font-size: 16px; font-weight: bold; border-radius: 12px; cursor: pointer;
+            text-align: center; box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+            transition: transform 0.1s, background 0.3s; animation: fireGlow 1.5s infinite alternate; 
         }
-        .btn:active {
-            transform: scale(0.95); 
-        }
-        .btn-full {
-            grid-column: span 2; 
-        }
-        .btn-pair {
-            background: linear-gradient(45deg, #00ccff, #0055ff);
-            box-shadow: 0 4px 15px rgba(0, 85, 255, 0.4);
-            animation: none; 
-        }
-        .btn-pair.loading {
-            background: linear-gradient(45deg, #ffaa00, #ff7700);
-            pointer-events: none;
-        }
-        .btn-pair.success {
-            background: linear-gradient(45deg, #28a745, #00ff6a);
-            box-shadow: 0 4px 15px rgba(0, 255, 106, 0.4);
-        }
-        .btn-close {
-            background: linear-gradient(45deg, #333333, #555555);
-            animation: none;
-            box-shadow: none;
-        }
-
-        @keyframes fireGlow {
-            0% { box-shadow: 0 0 5px #ff0000; }
-            100% { box-shadow: 0 0 20px #ff7300, 0 0 30px #ff0000; }
-        }
+        .btn:active { transform: scale(0.95); }
+        .btn-full { grid-column: span 2; }
+        .btn-pair { background: linear-gradient(45deg, #00ccff, #0055ff); box-shadow: 0 4px 15px rgba(0, 85, 255, 0.4); animation: none; }
+        .btn-pair.loading { background: linear-gradient(45deg, #ffaa00, #ff7700); pointer-events: none; }
+        .btn-pair.success { background: linear-gradient(45deg, #28a745, #00ff6a); box-shadow: 0 4px 15px rgba(0, 255, 106, 0.4); }
+        .btn-close { background: linear-gradient(45deg, #333333, #555555); animation: none; box-shadow: none; }
+        @keyframes fireGlow { 0% { box-shadow: 0 0 5px #ff0000; } 100% { box-shadow: 0 0 20px #ff7300, 0 0 30px #ff0000; } }
     </style>
 </head>
 <body>
 
     <video autoplay muted loop playsinline class="bg-video">
         <source src="https://cdn.pixabay.com/video/2020/05/24/40061-424754593_large.mp4" type="video/mp4">
-        Your browser does not support HTML5 video.
     </video>
     
     <div class="bg-overlay"></div>
@@ -202,17 +126,13 @@
             <button class="btn" onclick="sendToBot('sys')">⚙️ System Info</button>
             <button class="btn btn-full" onclick="sendToBot('owner')">👑 Owner Menu</button>
             <button class="btn btn-full" onclick="sendToBot('buy')">💎 Buy Premium</button>
-            
             <button class="btn btn-full btn-close" onclick="closeApp()">❌ Close Menu</button>
         </div>
     </div>
 
     <script>
         const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
-        
-        if (tg && tg.initData) {
-            tg.expand();
-        }
+        if (tg && tg.initData) tg.expand();
 
         const urlParams = new URLSearchParams(window.location.search);
         const isLocked = urlParams.get('locked') === 'true';
@@ -220,78 +140,58 @@
         const botUsername = urlParams.get('bot') || "MOTU_PATALU_HINDU_HAI_BOT"; 
 
         function showCustomAlert(msg) {
-            if (tg && tg.initData) {
-                tg.showAlert(msg);
-            } else {
-                alert(msg);
-            }
+            if (tg && tg.initData) tg.showAlert(msg);
+            else alert(msg);
         }
 
-        async function requestPair() {
+        function requestPair() {
             if (isLocked && !isPrem) {
-                showCustomAlert("🚫 ACCESS DENIED!\n\nFree Mode is OFF. You must have an active Premium Subscription to use this feature.\n\n📩 DM to buy Premium: @RAJPUTTEAM101");
+                showCustomAlert("🚫 ACCESS DENIED!\n\nFree Mode is OFF. You must have an active Premium Subscription.\n📩 DM to buy Premium: @RAJPUTTEAM101");
                 return; 
             }
 
             let phone = document.getElementById('phoneNumber').value;
-            
             if (!phone) {
                 showCustomAlert("⚠️ Please enter a WhatsApp number first!");
                 return;
             }
 
             let btn = document.getElementById('pairBtn');
-            btn.innerHTML = "⏳ Generating...";
             btn.classList.add('loading');
+            btn.innerHTML = "⏳ Generating Code...";
 
-            // Get Telegram User ID if available
-            const userId = tg && tg.initDataUnsafe?.user?.id ? tg.initDataUnsafe.user.id : "unknown";
-
-            try {
-                // 🔥 THE MAGIC: Fetching from your Bot's private API (localtunnel) 🔥
-                let response = await fetch(`https://motupatlubotv8.loca.lt/api/pair?phone=${phone}&userId=${userId}`, {
-                    method: 'GET',
-                    headers: { 'Bypass-Tunnel-Reminder': 'true' }
-                });
+            setTimeout(() => {
+                btn.classList.remove('loading');
+                btn.classList.add('success');
+                btn.innerHTML = "✅ Process Started!";
                 
-                let data = await response.json();
-
-                btn.classList.remove('loading');
-                if (data.code) {
-                    btn.classList.add('success');
-                    btn.innerHTML = `✅ CODE: ${data.code}`;
-                    showCustomAlert(`🎉 Success!\n\nYour Pair Code is: ${data.code}\n\nPut this in WhatsApp to link!`);
-                } else {
-                    btn.innerHTML = "❌ Failed";
-                    showCustomAlert(`⚠️ Error: ${data.error || 'Failed to generate code'}`);
-                    setTimeout(() => { btn.innerHTML = "🔗 Get Pair Code"; }, 3000);
-                }
-            } catch (err) {
-                btn.classList.remove('loading');
-                btn.innerHTML = "❌ API Offline";
-                showCustomAlert("⚠️ API Connection Error: Ensure Bot is running and tunnel is active!");
-                setTimeout(() => { btn.innerHTML = "🔗 Get Pair Code"; }, 3000);
-            }
+                const deepLink = `https://t.me/${botUsername}?start=pair_${phone}`;
+                
+                setTimeout(() => {
+                    if (tg && tg.initData) {
+                        tg.openTelegramLink(deepLink);
+                        tg.close(); 
+                    } else {
+                        window.location.href = deepLink;
+                    }
+                    setTimeout(() => {
+                        btn.classList.remove('success');
+                        btn.innerHTML = "🔗 Get Pair Code";
+                    }, 1000);
+                }, 1000); 
+            }, 1500); 
         }
 
         function sendToBot(action) {
             let cmdAction = action.replace('/', '');
             const deepLink = `https://t.me/${botUsername}?start=cmd_${cmdAction}`;
-            
-            if (tg && tg.initData) {
-                tg.openTelegramLink(deepLink);
-                tg.close();
-            } else {
-                window.location.href = deepLink;
-            }
+            if (tg && tg.initData) { tg.openTelegramLink(deepLink); tg.close(); } 
+            else { window.location.href = deepLink; }
         }
 
         function closeApp() {
-            if (tg && tg.initData) {
-                tg.close();
-            } else {
-                window.close();
-            }
+            if (tg && tg.initData) tg.close();
+            else window.close();
         }
     </script>
 </body>
