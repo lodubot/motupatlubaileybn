@@ -63,7 +63,7 @@
             100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.2; text-shadow: 0 0 25px red; }
         }
 
-        .main-content, .verify-section {
+        .main-content {
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -100,11 +100,6 @@
             border: 1px solid rgba(255, 51, 0, 0.2);
         }
         
-        .verify-section .box-section {
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
-            border: 1px solid rgba(255, 0, 0, 0.6);
-        }
-
         .input-box {
             width: 85%;
             padding: 12px;
@@ -166,18 +161,6 @@
             animation: none;
             box-shadow: none;
         }
-        .btn-bot {
-            background: linear-gradient(45deg, #0088cc, #0055ff);
-            animation: none;
-            width: 100%;
-            margin-top: 10px;
-        }
-        .btn-check {
-            background: linear-gradient(45deg, #28a745, #00ff6a);
-            animation: none;
-            width: 100%;
-            margin-top: 10px;
-        }
 
         @keyframes fireGlow {
             0% { box-shadow: 0 0 5px #ff0000; }
@@ -195,25 +178,7 @@
     <div class="bg-overlay"></div>
     <div class="watermark">MOTU PATLU<br>BUG BOT V8</div>
 
-    <div id="verifyScreen" class="verify-section" style="display: none;">
-        <div class="header">
-            <h1>🛑 ACCESS DENIED</h1>
-            <p>Verification Required</p>
-        </div>
-        <div class="box-section">
-            <h3 style="color: #ff3300; margin-top: 0;">⚠️ WARNING</h3>
-            <p style="font-size: 15px; color: #ddd; text-align: left; line-height: 1.5;">
-                You are currently <b>NOT VERIFIED</b> to use this Web App.<br><br>
-                To unlock access, you must first go to the bot, join all official channels & groups, and verify yourself. Then you can use me!
-            </p>
-            
-            <a href="#" target="_blank" class="btn btn-bot" id="verifyBotLink">🤖 Go to Bot to Verify</a>
-            
-            <button class="btn btn-check" onclick="checkVerification()">🔄 I Am Verified (Check)</button>
-        </div>
-    </div>
-
-    <div id="mainScreen" class="main-content" style="display: none;">
+    <div id="mainScreen" class="main-content">
         <div class="header">
             <h1>🔥 MOTU PATLU V8 🔥</h1>
             <p>Rajput Team 101</p>
@@ -235,7 +200,6 @@
     </div>
 
     <script>
-        // Check if running inside Telegram WebApp or normal Browser (Chrome)
         const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
         
         if (tg && tg.initData) {
@@ -245,20 +209,9 @@
         const urlParams = new URLSearchParams(window.location.search);
         const isLocked = urlParams.get('locked') === 'true';
         const isPrem = urlParams.get('prem') === 'true';
-        const isVerified = urlParams.get('verified') === 'true'; 
         
-        // ⚠️ DHYAN DEIN: Yahan apne bot ka actual username dalna zaroori hai!
         const botUsername = urlParams.get('bot') || "MOTU_PATALU_HINDU_HAI_BOT"; 
 
-        // Agar user direct Chrome se aata hai bina URL params ke, toh wo verified nahi mana jayega (Security!)
-        if (!isVerified) {
-            document.getElementById('verifyScreen').style.display = 'flex';
-            document.getElementById('verifyBotLink').href = `https://t.me/${botUsername}`;
-        } else {
-            document.getElementById('mainScreen').style.display = 'flex';
-        }
-
-        // Custom Alert jo Chrome aur Telegram dono me kaam karegi
         function showCustomAlert(msg) {
             if (tg && tg.initData) {
                 tg.showAlert(msg);
@@ -286,7 +239,6 @@
                 tg.openTelegramLink(deepLink);
                 tg.close(); 
             } else {
-                // Chrome/Browser redirect
                 window.location.href = deepLink;
             }
         }
@@ -303,21 +255,10 @@
             }
         }
 
-        function checkVerification() {
-            const deepLink = `https://t.me/${botUsername}?start=cmd_menu`;
-            if (tg && tg.initData) {
-                tg.openTelegramLink(deepLink);
-                tg.close();
-            } else {
-                window.location.href = deepLink;
-            }
-        }
-
         function closeApp() {
             if (tg && tg.initData) {
                 tg.close();
             } else {
-                // Browser me tab close karne ka try karega
                 window.close();
             }
         }
