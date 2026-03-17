@@ -6,11 +6,8 @@
     <title>MOTU PATLU BUG BOT V8</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* 🔥 Animated Background Gradient 🔥 */
         body {
-            background: linear-gradient(45deg, #0f0c29, #302b63, #24243e);
-            background-size: 400% 400%;
-            animation: gradientBG 10s ease infinite;
+            background-color: #000000; 
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
@@ -23,13 +20,29 @@
             position: relative;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .bg-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -2; 
+            transform: translateX(-50%) translateY(-50%);
+            object-fit: cover; 
         }
 
-        /* 🔥 Motu Patlu Watermark Animation 🔥 */
+        .bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65); 
+            z-index: -1;
+        }
+
         .watermark {
             position: absolute;
             top: 50%;
@@ -37,7 +50,7 @@
             transform: translate(-50%, -50%);
             font-size: 55px;
             font-weight: 900;
-            color: rgba(255, 51, 0, 0.08); /* Transparent Red */
+            color: rgba(255, 51, 0, 0.15); 
             text-align: center;
             white-space: nowrap;
             z-index: 0;
@@ -47,14 +60,20 @@
 
         @keyframes pulseText {
             0% { transform: translate(-50%, -50%) scale(1); opacity: 0.05; }
-            100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.15; text-shadow: 0 0 25px red; }
+            100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.2; text-shadow: 0 0 25px red; }
         }
 
-        /* Upar ki layers ko z-index 1 diya taaki watermark piche rahe */
+        .main-content, .verify-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1;
+        }
+
         .header {
             text-align: center;
             margin-bottom: 20px;
-            z-index: 1;
         }
         .header h1 {
             color: #ff3300;
@@ -68,18 +87,24 @@
             font-size: 14px;
         }
         
-        .pair-section {
+        .box-section {
             width: 90%;
             max-width: 400px;
-            background: rgba(26, 26, 26, 0.6); /* Glassmorphism effect */
-            backdrop-filter: blur(8px);
+            background: rgba(26, 26, 26, 0.4); 
+            backdrop-filter: blur(10px); 
             padding: 15px;
             border-radius: 12px;
             box-shadow: 0 0 15px rgba(255, 51, 0, 0.4);
             margin-bottom: 20px;
             text-align: center;
-            z-index: 1;
+            border: 1px solid rgba(255, 51, 0, 0.2);
         }
+        
+        .verify-section .box-section {
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+            border: 1px solid rgba(255, 0, 0, 0.6);
+        }
+
         .input-box {
             width: 85%;
             padding: 12px;
@@ -106,7 +131,6 @@
             display: grid;
             grid-template-columns: 1fr 1fr; 
             gap: 15px;
-            z-index: 1;
         }
         
         .btn {
@@ -122,6 +146,9 @@
             box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
             transition: transform 0.1s;
             animation: fireGlow 1.5s infinite alternate; 
+            text-decoration: none;
+            display: inline-block;
+            box-sizing: border-box;
         }
         .btn:active {
             transform: scale(0.95); 
@@ -139,6 +166,18 @@
             animation: none;
             box-shadow: none;
         }
+        .btn-bot {
+            background: linear-gradient(45deg, #0088cc, #0055ff);
+            animation: none;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn-check {
+            background: linear-gradient(45deg, #28a745, #00ff6a);
+            animation: none;
+            width: 100%;
+            margin-top: 10px;
+        }
 
         @keyframes fireGlow {
             0% { box-shadow: 0 0 5px #ff0000; }
@@ -148,56 +187,95 @@
 </head>
 <body>
 
+    <video autoplay muted loop playsinline class="bg-video">
+        <source src="https://cdn.pixabay.com/video/2020/05/24/40061-424754593_large.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+    
+    <div class="bg-overlay"></div>
     <div class="watermark">MOTU PATLU<br>BUG BOT V8</div>
 
-    <div class="header">
-        <h1>🔥 MOTU PATLU V8 🔥</h1>
-        <p>Rajput Team 101</p>
+    <div id="verifyScreen" class="verify-section" style="display: none;">
+        <div class="header">
+            <h1>🛑 ACCESS DENIED</h1>
+            <p>Verification Required</p>
+        </div>
+        <div class="box-section">
+            <h3 style="color: #ff3300; margin-top: 0;">⚠️ WARNING</h3>
+            <p style="font-size: 15px; color: #ddd; text-align: left; line-height: 1.5;">
+                You are currently <b>NOT VERIFIED</b> to use this Web App.<br><br>
+                To unlock access, you must first go to the bot, join all official channels & groups, and verify yourself. Then you can use me!
+            </p>
+            <a href="https://t.me/MOTU_PATALU_HINDU_HAI_BOT" target="_blank" class="btn btn-bot" id="verifyBotLink">🤖 Go to Bot to Verify</a>
+            <button class="btn btn-check" onclick="checkVerification()">🔄 I Am Verified (Check)</button>
+        </div>
     </div>
 
-    <div class="pair-section">
-        <input type="number" id="phoneNumber" class="input-box" placeholder="Enter Number (e.g., 91...)" />
-        <button class="btn btn-full btn-pair" style="width: 100%;" onclick="requestPair()">🔗 Get Pair Code</button>
-    </div>
+    <div id="mainScreen" class="main-content" style="display: none;">
+        <div class="header">
+            <h1>🔥 MOTU PATLU V8 🔥</h1>
+            <p>Rajput Team 101</p>
+        </div>
 
-    <div class="menu-container">
-        <button class="btn" onclick="sendToBot('/menu')">📁 Main Menu</button>
-        <button class="btn" onclick="sendToBot('/sys')">⚙️ System Info</button>
-        <button class="btn btn-full" onclick="sendToBot('/owner')">👑 Owner Menu</button>
-        <button class="btn btn-full" onclick="sendToBot('/buy')">💎 Buy Premium</button>
-        
-        <button class="btn btn-full btn-close" onclick="closeApp()">❌ Close Menu</button>
+        <div class="box-section">
+            <input type="number" id="phoneNumber" class="input-box" placeholder="Enter Number (e.g., 91...)" />
+            <button class="btn btn-full btn-pair" style="width: 100%;" onclick="requestPair()">🔗 Get Pair Code</button>
+        </div>
+
+        <div class="menu-container">
+            <button class="btn" onclick="sendToBot('menu')">📁 Main Menu</button>
+            <button class="btn" onclick="sendToBot('sys')">⚙️ System Info</button>
+            <button class="btn btn-full" onclick="sendToBot('owner')">👑 Owner Menu</button>
+            <button class="btn btn-full" onclick="sendToBot('buy')">💎 Buy Premium</button>
+            
+            <button class="btn btn-full btn-close" onclick="closeApp()">❌ Close Menu</button>
+        </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        // 🔥 URL parameters read karna taaki pata chale System Locked hai ya nahi
         const urlParams = new URLSearchParams(window.location.search);
         const isLocked = urlParams.get('locked') === 'true';
         const isPrem = urlParams.get('prem') === 'true';
+        const isVerified = urlParams.get('verified') === 'true'; 
+        
+        // 🔥 Bot ka username hum directly url se nikalenge jisse deep link banegi
+        const botUsername = urlParams.get('bot') || "MOTU_PATALU_HINDU_HAI_BOT"; 
+
+        if (!isVerified) {
+            document.getElementById('verifyScreen').style.display = 'flex';
+            document.getElementById('verifyBotLink').href = `https://t.me/${botUsername}`;
+        } else {
+            document.getElementById('mainScreen').style.display = 'flex';
+        }
 
         function requestPair() {
-            // Agar Bot lock mode me hai aur user Premium nahi hai
             if (isLocked && !isPrem) {
                 tg.showAlert("🚫 ACCESS DENIED!\n\nFree Mode is OFF. You must have an active Premium Subscription to use this feature.\n\n📩 DM to buy Premium: @RAJPUTTEAM101");
                 return; 
             }
 
             let phone = document.getElementById('phoneNumber').value;
-            
             if (!phone) {
                 tg.showAlert("⚠️ Please enter a WhatsApp number first!");
                 return;
             }
             
-            tg.sendData("/pair " + phone);
+            // 🔥 DEEP LINKING MAGIC: Telegram ko khud open karne ko bolega
+            tg.openTelegramLink(`https://t.me/${botUsername}?start=pair_${phone}`);
             tg.close(); 
         }
 
         function sendToBot(action) {
-            tg.sendData(action);
+            // "menu" jaise commands ko "cmd_menu" karke bhejega
+            tg.openTelegramLink(`https://t.me/${botUsername}?start=cmd_${action}`);
+            tg.close();
+        }
+
+        function checkVerification() {
+            tg.openTelegramLink(`https://t.me/${botUsername}?start=cmd_menu`);
             tg.close();
         }
 
